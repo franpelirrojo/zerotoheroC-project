@@ -3,7 +3,7 @@
     "arguments": [
       "/usr/bin/gcc",
       "-c",
-      "-Iinclude",
+      "-Iinc",
       "-o",
       "obj/main.o",
       "src/main.c"
