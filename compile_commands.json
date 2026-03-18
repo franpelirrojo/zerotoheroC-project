@@ -1,0 +1,15 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "obj/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/franpelirrojo/code/zerotoheroC/proyecto_final",
+    "file": "/home/franpelirrojo/code/zerotoheroC/proyecto_final/src/main.c",
+    "output": "/home/franpelirrojo/code/zerotoheroC/proyecto_final/obj/main.o"
+  }
+]
