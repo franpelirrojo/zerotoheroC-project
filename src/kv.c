@@ -1,6 +1,7 @@
 #include <kv.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #define TOMBSTONE 0x1
 
@@ -70,6 +71,26 @@ int kv_put(kv_t *table, char *key, char *value){
     }
 
     return -2;
+}
+
+char * kv_get(kv_t *table, char *key) {
+    if (!table || !key) return NULL;
+
+    size_t idx = hash(key, table->capacity);
+
+    for (int i = 0; i < table->capacity - 1; i++) {
+        size_t real_idx = (idx + i) % table->capacity;
+        kv_entry_t *entry = &table->entries[real_idx];
+
+        if (!entry->key) return NULL;
+
+        if (entry->key != (void*)TOMBSTONE
+                && !strcmp(entry->key, key)) {
+            return entry->value;
+        }
+    }
+
+    return NULL;
 }
 
 void kv_free(kv_t * table) {

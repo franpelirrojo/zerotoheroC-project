@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <kv.h>
 #include <assert.h>
+#include <string.h>
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,10 @@ int main(int argc, char *argv[])
                     table->entries[i].value);
         }
     }
+
+    kv_put(table, "name", "Dolly");
+    assert(!strcmp(kv_get(table, "name"), "Dolly"));
+    assert(kv_get(table, "miss") == NULL);
 
     return EXIT_SUCCESS;
 }
