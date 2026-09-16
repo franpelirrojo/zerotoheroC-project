@@ -1,4 +1,5 @@
 #include <kv.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -42,7 +43,7 @@ int kv_put(kv_t *table, char *key, char *value){
 
     size_t idx = hash(key, table->capacity);
 
-    for (int i = 0; i < table->capacity - 1; i++) {
+    for (size_t i = 0; i < table->capacity; i++) {
         size_t real_idx = (idx + i) % table->capacity;
         kv_entry_t *entry = &table->entries[real_idx];
 
@@ -79,7 +80,7 @@ char * kv_get(kv_t *table, char *key) {
 
     size_t idx = hash(key, table->capacity);
 
-    for (int i = 0; i < table->capacity - 1; i++) {
+    for (size_t i = 0; i < table->capacity; i++) {
         size_t real_idx = (idx + i) % table->capacity;
         kv_entry_t *entry = &table->entries[real_idx];
 
@@ -99,7 +100,7 @@ int kv_delete(kv_t *table, char *key) {
 
     size_t idx = hash(key, table->capacity);
 
-    for (int i = 0; i < table->capacity - 1; i++) {
+    for (size_t i = 0; i < table->capacity; i++) {
         size_t real_idx = (idx + i) % table->capacity;
         kv_entry_t *entry = &table->entries[real_idx];
 
@@ -126,10 +127,10 @@ void kv_free(kv_t *table) {
 }
 
 void kv_print(kv_t *table) {
-    for (int i = 0; i < table->capacity; i++){
+    for (size_t i = 0; i < table->capacity; i++){
         if (table->entries[i].key 
                 && table->entries[i].key != (void *)TOMBSTONE) {
-            printf("[%d] %s: %s\n", 
+            printf("[%ld] %s: %s\n", 
                     i,
                     table->entries[i].key,
                     table->entries[i].value);
