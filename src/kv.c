@@ -51,6 +51,7 @@ int kv_put(kv_t *table, char *key, char *value){
                 && !strcmp(entry->key, key)) {
             char *newval = strdup(value);
             if (!newval) return -1;
+            free(entry->value);
             entry->value = newval;
             return 0;
         }
@@ -93,7 +94,45 @@ char * kv_get(kv_t *table, char *key) {
     return NULL;
 }
 
-void kv_free(kv_t * table) {
+int kv_delete(kv_t *table, char *key) {
+    if (!table || !key) return -1;
+
+    size_t idx = hash(key, table->capacity);
+
+    for (int i = 0; i < table->capacity - 1; i++) {
+        size_t real_idx = (idx + i) % table->capacity;
+        kv_entry_t *entry = &table->entries[real_idx];
+
+        if (!entry->key) return -1;
+
+        if (entry->key == (void*)TOMBSTONE) continue;
+
+        if (!strcmp(entry->key, key)) {
+            free(entry->key);
+            free(entry->value);
+            table->count--;
+            entry->key = (void*)TOMBSTONE;
+            entry->value = NULL;
+            return 0;
+        }
+    }
+
+    return -1;
+}
+
+void kv_free(kv_t *table) {
     free(table->entries);
     free(table);
+}
+
+void kv_print(kv_t *table) {
+    for (int i = 0; i < table->capacity; i++){
+        if (table->entries[i].key 
+                && table->entries[i].key != (void *)TOMBSTONE) {
+            printf("[%d] %s: %s\n", 
+                    i,
+                    table->entries[i].key,
+                    table->entries[i].value);
+        }
+    }
 }

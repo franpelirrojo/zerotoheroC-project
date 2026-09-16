@@ -18,18 +18,16 @@ int main(int argc, char *argv[])
     kv_put(table, "Para nada es así", "joo");
     kv_put(table, "jaja", "poo");
 
-    for (int i = 0; i < table->capacity; i++){
-        if (table->entries[i].key) {
-            printf("[%d] %s: %s\n", 
-                    i,
-                    table->entries[i].key,
-                    table->entries[i].value);
-        }
-    }
-
     kv_put(table, "name", "Dolly");
     assert(!strcmp(kv_get(table, "name"), "Dolly"));
     assert(kv_get(table, "miss") == NULL);
+
+    kv_print(table);
+
+    kv_delete(table, "name");
+    assert(kv_get(table, "name") == NULL);
+
+    kv_print(table);
 
     return EXIT_SUCCESS;
 }
