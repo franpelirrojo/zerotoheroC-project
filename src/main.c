@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
     assert(kv_get(table, "name") == NULL);
 
     kv_print(table);
+    kv_free(table);
+    table = NULL;
 
     return EXIT_SUCCESS;
 }

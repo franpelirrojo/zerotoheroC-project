@@ -122,6 +122,15 @@ int kv_delete(kv_t *table, char *key) {
 }
 
 void kv_free(kv_t *table) {
+    for (size_t i = 0; i < table->capacity; i++){
+        kv_entry_t *entry = &table->entries[i];
+        if (entry->key 
+                && entry->key != (void *)TOMBSTONE) {
+                    free(entry->key);
+                    free(entry->value);
+        }
+    }
+
     free(table->entries);
     free(table);
 }
