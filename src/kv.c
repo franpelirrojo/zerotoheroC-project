@@ -121,9 +121,8 @@ int kv_delete(kv_t *table, char *key) {
     return -1;
 }
 
-int kv_free(kv_t *table) {
-    if(!table) return -1;
-
+void kv_free(kv_t *table) {
+    if(!table) return;
     for (size_t i = 0; i < table->capacity; i++){
         kv_entry_t *entry = &table->entries[i];
         if (entry->key 
@@ -135,12 +134,10 @@ int kv_free(kv_t *table) {
 
     free(table->entries);
     free(table);
-
-    return 0;
 }
 
-int kv_print(kv_t *table) {
-    if(!table) return -1;
+void kv_print(kv_t *table) {
+    if(!table) return;
 
     for (size_t i = 0; i < table->capacity; i++){
         if (table->entries[i].key 
@@ -151,6 +148,4 @@ int kv_print(kv_t *table) {
                     table->entries[i].value);
         }
     }
-
-    return 0;
 }
