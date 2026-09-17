@@ -2,6 +2,9 @@ TARGET = bin/proyecto
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
+run: clean default
+	./$(TARGET)
+
 default: $(TARGET)
 
 clean:
@@ -9,7 +12,7 @@ clean:
 	rm -f bin/*
 
 $(TARGET): $(OBJ)
-	gcc -o $@ $?
+	gcc -g -o $@ $?
 
 obj/%.o: src/%.c
 	gcc -c $< -o $@ -Iinc
